@@ -24,14 +24,16 @@ function connectToServer() {
           Logger.log(`Processing function: ${function_name} with args:`, args);
 
           let response;
-          if (function_name === 'calculate') {
-            const result = calculateResult(args);
-            Logger.log(`Result of calculation: ${result}`);
-            response = result.toString();
-          // } else if(function_name === 'dataRetriever') {
-          //   const result = dataRetrieverFunction(args);
-          //   Logger.log(`Processing function:${result}`)
-          } else {
+         if(function_name === 'dataRetriever') {
+            const result = dataRetrieverFunction(args);
+            Logger.log(`Processing function:${result}`)
+            response = result;
+          } else if(function_name === 'generateInsight') {
+            const result = generateInsightFunction(args);
+            Logger.log(`Processing function:${result}`)
+            response = result;
+          }
+          else {
             const result = prompt(`Enter your response for ${function_name}:`);
             Logger.log(`Response for ${function_name}: ${result}`);
             response = result;
@@ -77,32 +79,32 @@ function promptUserInput() {
   }
 }
 
-function calculateResult(args: { a: number | string; b: number | string; operator: string }): number {
-  let a = typeof args.a === 'string' ? parseFloat(args.a) : args.a;
-  let b = typeof args.b === 'string' ? parseFloat(args.b) : args.b;
+// function calculateResult(args: { a: number | string; b: number | string; operator: string }): number {
+//   let a = typeof args.a === 'string' ? parseFloat(args.a) : args.a;
+//   let b = typeof args.b === 'string' ? parseFloat(args.b) : args.b;
 
-  switch (args.operator) {
-    case 'add':
-    case '+':
-      return a + b;
-    case 'subtract':
-    case '-':
-      return a - b;
-    case 'multiply':
-    case '*':
-      return a * b;
-    case 'divide':
-    case '/':
-      return a / b;
-    case 'power':
-    case '^':
-      return Math.pow(a, b);
-    case 'root':
-      return Math.pow(a, 1 / b);
-    default:
-      throw new Error(`Unknown operator: ${args.operator}`);
-  }
-}
+//   switch (args.operator) {
+//     case 'add':
+//     case '+':
+//       return a + b;
+//     case 'subtract':
+//     case '-':
+//       return a - b;
+//     case 'multiply':
+//     case '*':
+//       return a * b;
+//     case 'divide':
+//     case '/':
+//       return a / b;
+//     case 'power':
+//     case '^':
+//       return Math.pow(a, b);
+//     case 'root':
+//       return Math.pow(a, 1 / b);
+//     default:
+//       throw new Error(`Unknown operator: ${args.operator}`);
+//   }
+// }
 
 function dataRetrieverFunction(query:string) {
   console.log("Executing SQL query:", query);
@@ -115,11 +117,37 @@ function dataRetrieverFunction(query:string) {
     return data;
 }
 
-function generateInsightFunction(data:[string]) {
-  console.log("Analyzing retrieved data:", data);
-    const insight = "The transactions for the 'Thriller Novel' occurred consecutively over three days (May 10th to May 12th).";
+// function generateInsightFunction(data:any) {
+//   console.log("Analyzing retrieved data:", data);
+//     const insight = "The transactions for the 'Thriller Novel' occurred consecutively over three days (May 10th to May 12th).";
     
-    return insight;
-}
+//     return insight;
+// }
+
+function generateInsightFunction(data: { data: string }) {
+    const rawData = data.data;
+    console.log("Analyzing retrieved data:", rawData);
+    // console.log("Type of data:", typeof rawData);
+    // const dataArray = JSON.parse(rawData); 
+    // const productNames = dataArray.map((entry:any) => entry.PRODUCT_NAME);
+    // const totalPrice = dataArray.reduce((total:any, entry:any) => total + entry.PRICE, 0);
+    // const averagePrice = totalPrice / dataArray.length;
+  
+    let insights;
+  
+    // const transactionDates = dataArray.map((entry:any) => new Date(entry.TRANSACTION_DATE));
+    // const sortedTransactionDates = transactionDates.sort((a:any, b:any) => a.getTime() - b.getTime());
+    // const firstTransactionDate = sortedTransactionDates[0];
+    // const lastTransactionDate = sortedTransactionDates[sortedTransactionDates.length - 1];
+    // insights.push(`Insight: The transactions for the "${productNames[0]}" occurred consecutively over three days (${formatDate(firstTransactionDate)} to ${formatDate(lastTransactionDate)}).`);
+  
+    // insights.push(`Insight: The price point of the "${productNames[0]}" at $${averagePrice.toFixed(2)} seems affordable and could be driving sales.`);
+  
+    return insights;
+  }
+  
+  function formatDate(date: Date) {
+      return date.toLocaleDateString('en-US');
+  }
 
 connectToServer();

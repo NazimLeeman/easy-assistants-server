@@ -36,6 +36,7 @@ function processSteps(inputData: InputData | AIMessage): { stepsArray: string[][
     }
   } else {
     steps = inputData.steps;
+    console.log(steps)
   }
   
   // Anthropic tends to return the steps as a string, so we need to parse it

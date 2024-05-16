@@ -16,6 +16,8 @@ Provide the step-by-step solution, here are the tools you have access to:
 - getSegmentDetails: Use this tool exclusively when a user requests the creation of a segment or a table. It requires specific input parameters, including the names and structures of tables retrieved from the getTables tool and a detailed description of the segment.
 - createChart: Use this tool to generate labels, data and type for a chart generation. This tool will have as input a JSON with the complete data that will have to be filtered and provide only the information related to user's request. The chart type will come indicated in the input message, as line, bar or doghnut, otherwise use bar type. It requires specific input parameters, including the names and structures of tables retrieved from the getTables tool and the sqlQuery tool.
 - filterData: Use this tool when the user asks for data filtering. You will always respond with a list of filtered objects based on the original list, based on user's request. 
+- dataRetriever: Use this tool to retrieve meaningful insights from the database. You will always respond with the result obtained after querying from the database.
+- generateInsight: Use this tool to generate meaningful insights. This tool will get a JSON from the dataRetriever tool and analyze it for insights. You will always respond with meaningful insight from those data.
 
 For tasks involving the generation or creation of a chart or a graph, employ a strategy that uses getTables, sqlQuery and createChart to formulate a plan.
 For tasks involving the creation of segments or tables, employ a strategy that uses both getTables and getSegmentDetails once to formulate a plan.
@@ -25,6 +27,20 @@ Remember to format your response as a JSON object with a "steps" array, where ea
 Remember you can use stepIds like "#E1" as one of the values in the toolParameters array if the result of that step is needed in the current step.
 IE:
 
+Give me insights about product Planes, the plan could be:
+[
+  {{
+    stepId: "#E1",
+    description: "SQL query to retrieve relevant data about product "Planes" from the database.",
+    toolName: "dataRetriever",
+    toolParameters: [ "product, Planes"]
+  }}, {{
+    stepId: "#E2",
+    description: "Generate an insight based on data.",
+    toolName: "generateInsight",
+    toolParameters: [ "#E1" ]
+  }}
+]
 Create a graph to highlight my top 10 customers last year, the plan could be: 
 [
   {{

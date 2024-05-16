@@ -6,6 +6,7 @@
   "scripts": {
     "start": "bun src/server.ts",
     "test-calculate": "bun tests/calculator.ts",
+    "test-generate": "bun tests/generate.ts",
     "prettier": "npx prettier --write ."
   },
   "devDependencies": {

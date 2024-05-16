@@ -32,8 +32,9 @@ export class WebSocketService {
           }
           if (Array.isArray(toolResponse)) {
             toolResponse.forEach((response: { function_name: string; response: string }) => {
+              console.log(response);
               Logger.log(`Received response for ${response.function_name}: ${response.response}`);
-              responses[response.function_name] = response.response.trim();
+              responses[response.function_name] = response.response;
             });
           } else if (toolResponse && toolResponse.function_name) {
             Logger.log(`Received response for ${toolResponse.function_name}: ${toolResponse.response}`);

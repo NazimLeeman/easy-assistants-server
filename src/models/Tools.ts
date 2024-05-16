@@ -99,6 +99,70 @@ const sqlQuery: ToolDefinition = {
   },
 };
 
+// const databaseInsight: ToolDefinition = {
+//   type: 'function',
+//   function: {
+//     name: 'databaseInsight',
+//     description:
+//       "call this to get meaningful insights from the database.",
+//     parameters: {
+//       type: 'object',
+//       properties: {
+//         createDatabaseInsight: {
+//           type: 'string',
+//           description:
+//             'generates meaningful patterns, or any relevant information present in the database to generate insightful summaries.',
+//         },
+//       },
+//       required: ['createDatabaseInsight'],
+//     },
+//   },
+// };
+
+const dataRetriever: ToolDefinition = {
+  type: 'function',
+  function: {
+    name: 'dataRetriever',
+    description:
+      "retreives data from database to provide meaningful insights.",
+    parameters: {
+      type: 'object',
+      properties: {
+        query: {
+          type: 'string',
+          description:
+            'SQL query executes to retrieve relevant data from the database.',
+        },
+      },
+      required: ['query'],
+    },
+  },
+};
+
+const generateInsight: ToolDefinition = {
+  type: 'function',
+  function: {
+    name: 'generateInsight',
+    description:
+      "call this to generate meaningful insights from the data retrieved by dataRetriever tool.",
+    parameters: {
+      type: 'object',
+      properties: {
+        insights: {
+          type: 'string',
+          description:
+            'meaningful insights that we can extract from the data.'
+          // type: 'array',
+          // items: { type: 'object'},
+          // description:
+          //   'Array of data retrieved from the dataRetriever tool for generating insight.',
+        },
+      },
+      required: ['insights'],
+    },
+  },
+};
+
 const segmentTool: ToolDefinition = {
   type: 'function',
   function: {
@@ -622,5 +686,8 @@ export {
   getTables,
   getSegmentDetails,
   filterData,
+  generateInsight,
+  dataRetriever,
+  // databaseInsight,
   getAllToolsDescriptions,
 };
